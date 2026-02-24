@@ -1,8 +1,5 @@
+import { ComponentExample } from "@/components/component-example";
 
-export default function Home() {
-  return (
-    <>
-      <h2>Hi! I'm Azam</h2>
-    </>
-  );
+export default function Page() {
+return <ComponentExample />;
 }
