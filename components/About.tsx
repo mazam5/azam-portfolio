@@ -32,6 +32,8 @@ export default function About() {
 
     useGSAP(
         () => {
+            if (personalInfo.bio.length === 0 || highlights.length === 0) return;
+
             gsap.fromTo(
                 ".about-text",
                 { opacity: 0, y: 40 },
@@ -60,7 +62,7 @@ export default function About() {
                     stagger: 0.1,
                     ease: "power3.out",
                     scrollTrigger: {
-                        trigger: ".stats-grid",
+                        trigger: sectionRef.current,
                         start: "top 80%",
                         toggleActions: "play none none reverse",
                     },

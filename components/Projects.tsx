@@ -1,12 +1,12 @@
 "use client";
 
-import { projects } from "@/data/portfolio";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink, Layers } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { ProjectData } from "@/lib/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,14 +20,17 @@ const filterTabs = [
 export default function Projects() {
     const sectionRef = useRef<HTMLElement>(null);
     const [activeFilter, setActiveFilter] = useState("all");
+    const [projects, setProjects] = useState<ProjectData[]>([]);
 
     const filteredProjects =
         activeFilter === "all"
             ? projects
             : projects.filter((p) => p.category === activeFilter);
 
+
     useGSAP(
         () => {
+            if (filteredProjects.length === 0) return;
             gsap.fromTo(
                 ".project-card",
                 { opacity: 0, y: 40, scale: 0.95 },
@@ -39,7 +42,7 @@ export default function Projects() {
                     stagger: 0.1,
                     ease: "power3.out",
                     scrollTrigger: {
-                        trigger: ".projects-grid",
+                        trigger: sectionRef.current,
                         start: "top 80%",
                         toggleActions: "play none none reverse",
                     },
@@ -48,7 +51,18 @@ export default function Projects() {
         },
         { scope: sectionRef, dependencies: [activeFilter] }
     );
-
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await fetch("/api/projects");
+                const data = await response.json();
+                setProjects(data);
+            } catch (error) {
+                console.error("Error fetching projects:", error);
+            }
+        };
+        fetchProjects();
+    }, []);
     return (
         <section
             id="projects"

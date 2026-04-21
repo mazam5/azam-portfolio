@@ -1,27 +1,28 @@
 "use client";
 
-import { experiences } from "@/data/portfolio";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Briefcase, MoveRight } from "lucide-react";
-import { useRef } from "react";
-import { useTheme } from "next-themes";
+import { useEffect, useRef, useState } from "react";
 import ExperienceCard from "./cards/ExperienceCard";
+import { ExperienceData } from "@/lib/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
 // DESKTOP — horizontal scroll pinned section (md and above)
-const ExperienceDesktop = () => {
+const ExperienceDesktop = ({ experiences }: { experiences: ExperienceData[] }) => {
     const sectionRef = useRef<HTMLElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
     useGSAP(
         () => {
+            if (experiences.length === 0) return;
+
             const wrapper = wrapperRef.current;
             if (!wrapper) return;
 
             const totalScroll = wrapper.scrollWidth - window.innerWidth;
-            const scrollDistance = Math.max(totalScroll * 1.5, window.innerWidth); // Ensure enough scroll space
+            const scrollDistance = totalScroll * 1.5;
 
             const scrollTween = gsap.to(wrapper, {
                 x: () => -totalScroll,
@@ -63,8 +64,10 @@ const ExperienceDesktop = () => {
                 },
             });
         },
-        { scope: sectionRef }
+        { scope: sectionRef, dependencies: [experiences] }
     );
+
+
 
     return (
         <section
@@ -120,12 +123,14 @@ const ExperienceDesktop = () => {
 };
 
 // MOBILE — simple vertical timeline (below md)
-const ExperienceMobile = () => {
-    const { setTheme } = useTheme();
+const ExperienceMobile = ({ experiences }: { experiences: ExperienceData[] }) => {
     const sectionRef = useRef<HTMLElement>(null);
+
 
     useGSAP(
         () => {
+            if (experiences.length === 0) return;
+
             gsap.utils
                 .toArray<HTMLElement>(".journey-mobile-card")
                 .forEach((card) => {
@@ -146,7 +151,7 @@ const ExperienceMobile = () => {
                     );
                 });
         },
-        { scope: sectionRef }
+        { scope: sectionRef, dependencies: [experiences] }
     );
 
     return (
@@ -197,10 +202,26 @@ const ExperienceMobile = () => {
 };
 
 export default function Experience() {
+    const [experiences, setExperiences] = useState<ExperienceData[]>([]);
+
+    useEffect(() => {
+        const fetchExperiences = async () => {
+            try {
+                const response = await fetch("/api/experiences");
+                const data = await response.json();
+                setExperiences(data);
+            } catch (error) {
+                console.error("Error fetching experiences:", error);
+            }
+        };
+
+        fetchExperiences();
+    }, []);
+
     return (
         <>
-            <ExperienceMobile />
-            <ExperienceDesktop />
+            <ExperienceMobile experiences={experiences} />
+            <ExperienceDesktop experiences={experiences} />
         </>
     );
 }

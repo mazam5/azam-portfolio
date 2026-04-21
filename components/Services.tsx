@@ -39,6 +39,8 @@ export default function Services() {
 
     useGSAP(
         () => {
+            if (services.length === 0) return;
+
             gsap.fromTo(
                 ".service-card",
                 { opacity: 0, y: 40, scale: 0.95 },

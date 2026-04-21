@@ -1,10 +1,10 @@
 "use client";
 
-import { skills } from "@/data/portfolio";
+import { SkillData } from "@/lib/types";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,13 +13,13 @@ const categories = [
     { key: "backend", label: "Backend" },
     { key: "mobile", label: "Mobile" },
     { key: "database", label: "Database" },
-    // { key: "devops", label: "DevOps" },
     { key: "tools", label: "Tools" },
 ] as const;
 
 export default function Skills() {
     const sectionRef = useRef<HTMLElement>(null);
     const [activeCategory, setActiveCategory] = useState<string>("all");
+    const [skills, setSkills] = useState<SkillData[]>([]);
 
     const filteredSkills =
         activeCategory === "all"
@@ -28,6 +28,8 @@ export default function Skills() {
 
     useGSAP(
         () => {
+            if (filteredSkills.length === 0) return;
+
             gsap.fromTo(
                 ".skill-item",
                 { opacity: 0, y: 20, scale: 0.9 },
@@ -39,15 +41,29 @@ export default function Skills() {
                     stagger: 0.04,
                     ease: "power3.out",
                     scrollTrigger: {
-                        trigger: ".skills-grid",
+                        trigger: sectionRef.current,
                         start: "top 80%",
                         toggleActions: "play none none reverse",
                     },
                 }
             );
         },
-        { scope: sectionRef, dependencies: [activeCategory] }
+        { scope: sectionRef, dependencies: [activeCategory, skills] }
     );
+
+    useEffect(() => {
+        const fetchSkills = async () => {
+            try {
+                const response = await fetch("/api/skills");
+                const data = await response.json();
+                setSkills(data);
+            } catch (error) {
+                console.error("Error fetching skills:", error);
+            }
+        };
+
+        fetchSkills();
+    }, []);
 
     return (
         <section

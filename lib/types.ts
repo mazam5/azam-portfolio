@@ -1,12 +1,12 @@
 
 export interface ExperienceData {
+    _id?: string;
     date: string;
     title: string;
     type?: string;
     company?: string;
     description?: string;
     icon?: React.ReactNode;
-    position: "top" | "bottom";
     technologies?: string[];
 }
 
@@ -19,6 +19,7 @@ export interface CardData {
 }
 
 export interface SkillData {
+    _id?: string;
     name: string;
     icon: string;
     level: string; // "Basic" | "Intermediate" | "Advanced"
@@ -34,13 +35,6 @@ export interface EducationData {
     coursework?: string[];
 }
 
-export interface CertificationData {
-    title: string;
-    issuer: string;
-    date: string;
-    credentialUrl?: string;
-    badge?: string;
-}
 
 export interface ServiceData {
     title: string;
@@ -49,15 +43,9 @@ export interface ServiceData {
     features: string[];
 }
 
-export interface LanguageData {
-    name: string;
-    level: string;
-    type: "spoken" | "programming";
-    proficiency: number; // 0-100
-    icon?: string;
-}
 
 export interface ProjectData {
+    _id?: string;
     title: string;
     description: string;
     image?: string;

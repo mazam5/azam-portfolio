@@ -15,6 +15,8 @@ export default function Education() {
 
     useGSAP(
         () => {
+            if (education.length === 0) return;
+
             gsap.fromTo(
                 ".edu-element",
                 { opacity: 0, y: 30 },
