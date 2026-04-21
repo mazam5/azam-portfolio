@@ -8,6 +8,7 @@ export interface ExperienceData {
     description?: string;
     icon?: React.ReactNode;
     technologies?: string[];
+    position?: "top" | "bottom";
 }
 
 export interface CardData {

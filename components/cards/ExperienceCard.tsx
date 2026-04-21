@@ -3,15 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-interface ExperienceData {
-    date: string;
-    title: string;
-    company?: string;
-    description?: string;
-    technologies?: string[];
-    icon?: React.ReactNode;
-    position?: "top" | "bottom";
-}
+import { ExperienceData } from "@/lib/types";
 
 export default function ExperienceCard({ ms, index }: { ms: ExperienceData; index: number }) {
     const isTop = ms.position === "top" || index % 2 === 0;

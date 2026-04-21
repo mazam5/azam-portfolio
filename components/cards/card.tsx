@@ -7,10 +7,11 @@ const Card1 = ({ ms, index }: { ms: ExperienceData; index: number }) => {
     const iconRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const indicatorRef = useRef<HTMLDivElement>(null);
+    const isTop = ms.position === "top" || index % 2 === 0;
     const handleHover = () => {
         gsap.to(cardRef.current, {
             borderColor: "rgba(234, 179, 8, 0.4)",
-            y: ms.position === "top" ? -15 : 15,
+            y: isTop ? -15 : 15,
             scale: 1.02,
             duration: 0.6,
             ease: "power2.out",
@@ -73,14 +74,14 @@ const Card1 = ({ ms, index }: { ms: ExperienceData; index: number }) => {
 
     return (
         <div
-            className={`relative journey-item flex flex-col items-center shrink-0 w-[18rem] md:w-[24rem] ${ms.position === "top" ? "mb-40 md:mb-72" : "mt-40 md:mt-72"
+            className={`relative journey-item flex flex-col items-center shrink-0 w-[18rem] md:w-[24rem] ${isTop ? "mb-40 md:mb-72" : "mt-40 md:mt-72"
                 }`}
         >
             {/* Simple Vertical Indicator */}
             <div
                 ref={indicatorRef}
-                className={`absolute w-0.5 bg-yellow-500/20 left-1/2 -translate-x-1/2 ${ms.position === "top" ? "top-full" : "bottom-full"
-                    } h-10 origin-${ms.position === 'top' ? 'top' : 'bottom'} transition-none`}
+                className={`absolute w-0.5 bg-yellow-500/20 left-1/2 -translate-x-1/2 ${isTop ? "top-full" : "bottom-full"
+                    } h-10 origin-${isTop ? 'top' : 'bottom'} transition-none`}
             />
 
             <div
