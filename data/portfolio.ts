@@ -47,7 +47,7 @@ export const socialLinks: SocialLink[] = [
 export const navLinks = [
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
-    { name: "Experience", href: "#experience" },
+    { name: "Journey", href: "#journey" },
     { name: "Projects", href: "#projects" },
     { name: "Services", href: "#services" },
     { name: "Contact", href: "#contact" },
@@ -114,7 +114,7 @@ export const sections = [
     { id: "hero", label: "Home" },
     { id: "about", label: "About" },
     { id: "skills", label: "Skills" },
-    { id: "experience", label: "Experience" },
+    { id: "journey", label: "Journey" },
     { id: "education", label: "Education" },
     { id: "projects", label: "Projects" },
     { id: "services", label: "Services" },

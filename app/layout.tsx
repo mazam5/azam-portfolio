@@ -20,7 +20,7 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-    title: "Mohammed Azam | Software Engineer & Problem Solver",
+    title: "Mohammed Azam | Software Engineer",
     description:
         "Full-stack software engineer specializing in React, Next.js, Flutter, and scalable web applications. Building digital solutions that solve real-world problems.",
     keywords: [

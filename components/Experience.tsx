@@ -75,9 +75,9 @@ const ExperienceDesktop = ({ experiences }: { experiences: ExperienceData[] }) =
 
     return (
         <section
-            id="experience"
+            id="journey"
             ref={sectionRef}
-            className="journey relative h-screen overflow-hidden flex items-center w-full md:flex"
+            className="journey relative h-screen overflow-hidden hidden md:flex items-center w-full"
         >
             {/* Label */}
             <div className="absolute top-16 inset-x-0 z-20">
@@ -86,8 +86,8 @@ const ExperienceDesktop = ({ experiences }: { experiences: ExperienceData[] }) =
                         <span className="opacity-20">
                             <MoveRight />
                         </span>
-                        <span className="font-mono text-xs tracking-[0.4em] uppercase text-muted-foreground/60">
-                            PROFESSIONAL JOURNEY
+                        <span className="font-mono text-xs tracking-[0.4em] uppercase text-primary/60">
+                            JOURNEY
                         </span>
                     </div>
                 </div>
@@ -155,40 +155,62 @@ const ExperienceMobile = ({ experiences }: { experiences: ExperienceData[] }) =>
 
     return (
         <section
-            id="experience-mobile"
+            id="journey"
             ref={sectionRef}
-            className="journey relative w-full max-w-6xl mx-auto md:hidden py-24 px-6"
+            className="journey relative w-full max-w-6xl mx-auto py-24 px-6"
         >
-            <div className="flex items-center gap-4 mb-12">
+            <div className="flex items-center gap-4 mb-16">
                 <span className="opacity-20">
                     <MoveRight />
                 </span>
-                <span className="section-label">JOURNEY</span>
+                <span className="font-mono text-xs tracking-[0.4em] uppercase text-primary/60">
+                    JOURNEY
+                </span>
             </div>
 
             <div className="relative">
                 <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border/50" />
 
-                <div className="flex flex-col gap-10">
+                <div className="flex flex-col gap-8">
                     {experiences.map((exp, i) => (
-                        <div key={i} className="journey-mobile-card relative pl-12">
-                            <div className="absolute left-3 top-6 w-2.5 h-2.5 rounded-full bg-primary/40 border-2 border-primary" />
+                        <div key={i} className="journey-mobile-card relative pl-10">
+                            {/* Timeline node */}
+                            <div className="absolute left-3.5 top-6 w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_rgba(var(--primary),0.5)] border-2 border-background z-10" />
 
-                            <div className="p-6 rounded-2xl glass-card border-primary/10 shadow-lg flex flex-col gap-3">
-                                <span className="text-primary/70 font-mono text-xs tracking-widest font-bold">
-                                    {exp.date}
-                                </span>
-                                <h4 className="text-sm font-bold">
-                                    {exp.title}
-                                </h4>
-                                {exp.company && (
-                                    <p className="text-xs text-muted-foreground">
-                                        {exp.company}
-                                    </p>
-                                )}
-                                <p className="text-xs text-muted-foreground line-clamp-3">
+                            <div className="p-8 rounded-3xl glass-card border-primary/10 shadow-2xl flex flex-col gap-4 relative overflow-hidden group">
+                                {/* Decorative background accent */}
+                                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+
+                                <div className="flex justify-between items-start">
+                                    <span className="text-primary font-mono text-[10px] tracking-widest font-bold px-3 py-1 rounded-full bg-primary/10">
+                                        {exp.date}
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <h4 className="text-lg font-bold tracking-tight text-foreground/90">
+                                        {exp.title}
+                                    </h4>
+                                    {exp.company && (
+                                        <p className="text-sm text-primary/80 font-medium mt-1">
+                                            {exp.company}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <p className="text-sm text-muted-foreground/80 leading-relaxed">
                                     {exp.description}
                                 </p>
+
+                                {exp.technologies && exp.technologies.length > 0 && (
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        {exp.technologies.slice(0, 3).map((tech, j) => (
+                                            <span key={j} className="text-[10px] px-2 py-0.5 rounded-md bg-secondary/50 text-muted-foreground border border-border/50">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -201,8 +223,13 @@ const ExperienceMobile = ({ experiences }: { experiences: ExperienceData[] }) =>
 /* ================= MAIN ================= */
 export default function Experience() {
     const [experiences, setExperiences] = useState<ExperienceData[]>([]);
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
     useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+
         const controller = new AbortController();
 
         const fetchExperiences = async () => {
@@ -221,13 +248,21 @@ export default function Experience() {
 
         fetchExperiences();
 
-        return () => controller.abort();
+        return () => {
+            controller.abort();
+            window.removeEventListener("resize", checkMobile);
+        };
     }, []);
+
+    if (isMobile === null) return <div className="h-screen bg-background" />;
 
     return (
         <>
-            <ExperienceMobile experiences={experiences} />
-            <ExperienceDesktop experiences={experiences} />
+            {isMobile ? (
+                <ExperienceMobile experiences={experiences} />
+            ) : (
+                <ExperienceDesktop experiences={experiences} />
+            )}
         </>
     );
 }
