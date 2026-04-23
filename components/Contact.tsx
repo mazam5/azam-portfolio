@@ -22,6 +22,7 @@ export default function Contact() {
         name: "",
         email: "",
         subject: "",
+        phone: "",
         message: "",
     });
 
@@ -66,7 +67,7 @@ export default function Contact() {
             }
 
             setFormState("success");
-            setFormData({ name: "", email: "", subject: "", message: "" });
+            setFormData({ name: "", email: "", subject: "", phone: "", message: "" });
 
             // Reset after 5 seconds
             setTimeout(() => setFormState("idle"), 5000);
@@ -119,11 +120,7 @@ export default function Contact() {
                                     <span className="text-primary font-mono tracking-wider uppercase block mb-2">
                                         Privacy First
                                     </span>
-                                    Your information is sent directly to my
-                                    inbox via a secure server-side channel. No
-                                    third-party services, no data stored in
-                                    databases, no tracking. Just a direct line
-                                    from you to me.
+                                    Your information is sent directly to me via a secure server-side channel and saved in a private database (Google Sheets). No third-party trackers or invasive analytics—just a secure way for us to connect.
                                 </p>
                             </div>
 
@@ -182,23 +179,42 @@ export default function Contact() {
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="text-xs font-mono text-muted-foreground tracking-wider uppercase block mb-2">
-                                    Subject
-                                </label>
-                                <Input
-                                    type="text"
-                                    required
-                                    value={formData.subject}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            subject: e.target.value,
-                                        })
-                                    }
-                                    placeholder="What's this about?"
-                                    className="bg-secondary/50 border-input text-foreground placeholder:text-muted-foreground focus:border-primary/30 focus:ring-primary/10 rounded-xl"
-                                />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-xs font-mono text-muted-foreground tracking-wider uppercase block mb-2">
+                                        Subject
+                                    </label>
+                                    <Input
+                                        type="text"
+                                        required
+                                        value={formData.subject}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                subject: e.target.value,
+                                            })
+                                        }
+                                        placeholder="What's this about?"
+                                        className="bg-secondary/50 border-input text-foreground placeholder:text-muted-foreground focus:border-primary/30 focus:ring-primary/10 rounded-xl"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-mono text-muted-foreground tracking-wider uppercase block mb-2">
+                                        Contact Number (Optional)
+                                    </label>
+                                    <Input
+                                        type="tel"
+                                        value={formData.phone}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                phone: e.target.value,
+                                            })
+                                        }
+                                        placeholder="+1 234 567 890"
+                                        className="bg-secondary/50 border-input text-foreground placeholder:text-muted-foreground focus:border-primary/30 focus:ring-primary/10 rounded-xl"
+                                    />
+                                </div>
                             </div>
 
                             <div>
@@ -259,19 +275,6 @@ export default function Contact() {
                             )}
                         </form>
                     </div>
-                </div>
-            </div>
-
-            {/* Footer */}
-            <div className="max-w-6xl mx-auto mt-24 pt-8 border-t border-border">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-xs text-muted-foreground/60 font-mono">
-                        &copy; {new Date().getFullYear()} {personalInfo.name}.
-                        Crafted with precision.
-                    </p>
-                    <p className="text-xs text-muted-foreground/60 font-mono">
-                        Built with Next.js, GSAP & shadcn/ui
-                    </p>
                 </div>
             </div>
         </section>

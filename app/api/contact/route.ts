@@ -1,90 +1,83 @@
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { google } from "googleapis";
+import { z } from "zod";
+
+const contactSchema = z.object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    email: z.email("Invalid email address"),
+    subject: z.string().min(3, "Subject must be at least 3 characters"),
+    phone: z.string().optional(),
+    message: z.string().min(10, "Message must be at least 10 characters"),
+});
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { name, email, subject, message } = body;
-
-        // Validate
-        if (!name || !email || !subject || !message) {
+        
+        // Validate with Zod
+        const validation = contactSchema.safeParse(body);
+        if (!validation.success) {
             return NextResponse.json(
-                { error: "All fields are required" },
+                { error: validation.error.issues[0].message },
                 { status: 400 }
             );
         }
 
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        const { name, email, subject, phone, message } = validation.data;
+
+        const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+        const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+        const sheetId = process.env.GOOGLE_SHEET_ID;
+
+        if (!clientEmail || !privateKey || !sheetId) {
+            console.error("❌ Missing Google Sheets configuration in .env");
             return NextResponse.json(
-                { error: "Invalid email address" },
-                { status: 400 }
+                { error: "Server configuration error. Missing API credentials." },
+                { status: 500 }
             );
         }
 
-        // Send email via nodemailer
-        // Configure SMTP in .env.local:
-        //   SMTP_HOST=smtp.gmail.com
-        //   SMTP_PORT=587
-        //   SMTP_USER=your@gmail.com
-        //   SMTP_PASS=your-app-password
-        //   CONTACT_EMAIL=your@gmail.com
-
-        const smtpHost = process.env.SMTP_HOST;
-        const smtpPort = Number(process.env.SMTP_PORT || 587);
-        const smtpUser = process.env.SMTP_USER;
-        const smtpPass = process.env.SMTP_PASS;
-        const contactEmail = process.env.CONTACT_EMAIL;
-
-        if (!smtpHost || !smtpUser || !smtpPass || !contactEmail) {
-            // If SMTP not configured, log and return success (dev mode)
-            console.log("📧 Contact form submission (SMTP not configured):");
-            console.log({ name, email, subject, message });
-            return NextResponse.json({
-                success: true,
-                message: "Message received! I'll get back to you soon.",
+        try {
+            const auth = new google.auth.JWT({
+                email: clientEmail,
+                key: privateKey,
+                scopes: ["https://www.googleapis.com/auth/spreadsheets"],
             });
+
+            const sheets = google.sheets({ version: "v4", auth });
+
+            const timestamp = new Date().toLocaleString("en-US", {
+                timeZone: "Asia/Kolkata",
+                dateStyle: "medium",
+                timeStyle: "short"
+            });
+
+            await sheets.spreadsheets.values.append({
+                spreadsheetId: sheetId,
+                range: "Sheet1!A:F", // Updated range to include phone
+                valueInputOption: "USER_ENTERED",
+                requestBody: {
+                    values: [[timestamp, name, email, phone || "N/A", subject, message]],
+                },
+            });
+
+            console.log("✅ Successfully saved to Google Sheets via direct API");
+        } catch (err) {
+            console.error("❌ Google Sheets API Error:", err);
+            return NextResponse.json(
+                { error: "Failed to save message to Google Sheets." },
+                { status: 500 }
+            );
         }
-
-        const transporter = nodemailer.createTransport({
-            host: smtpHost,
-            port: smtpPort,
-            secure: smtpPort === 465,
-            auth: {
-                user: smtpUser,
-                pass: smtpPass,
-            },
-        });
-
-        await transporter.sendMail({
-            from: `"Portfolio Contact" <${smtpUser}>`,
-            to: contactEmail,
-            replyTo: email,
-            subject: `[Portfolio] ${subject}`,
-            html: `
-                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #00eaff;">New Contact Form Submission</h2>
-                    <hr style="border: 1px solid #1a1a2e;" />
-                    <p><strong>Name:</strong> ${name}</p>
-                    <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Subject:</strong> ${subject}</p>
-                    <h3>Message:</h3>
-                    <p style="white-space: pre-wrap; background: #0a0a1a; padding: 16px; border-radius: 8px; color: #e0e0e0;">${message}</p>
-                    <hr style="border: 1px solid #1a1a2e;" />
-                    <p style="color: #666; font-size: 12px;">Sent from your portfolio contact form</p>
-                </div>
-            `,
-        });
 
         return NextResponse.json({
             success: true,
-            message: "Message sent successfully! I'll get back to you soon.",
+            message: "Message sent successfully! It has been saved to our database.",
         });
     } catch (error) {
         console.error("Contact form error:", error);
         return NextResponse.json(
-            { error: "Failed to send message. Please try again later." },
+            { error: "Internal server error. Please try again later." },
             { status: 500 }
         );
     }

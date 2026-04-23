@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
 import { Fira_Code, Inter } from "next/font/google";
 import "./globals.css";
+import VisitorTracker from "@/components/analytics/VisitorTracker";
 import { Cursor } from "@/components/layout/Cursor";
 
 const inter = Inter({
@@ -56,6 +57,7 @@ export default function RootLayout({
                 <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
                     <SmoothScroll>
                         <TooltipProvider delayDuration={200}>
+                            <VisitorTracker />
                             {/* <Cursor /> */}
                             {children}
                         </TooltipProvider>
