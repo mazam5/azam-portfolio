@@ -8,6 +8,7 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
+import { Button } from "./ui/button";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -23,9 +24,11 @@ export default function Navbar() {
             const scrollY = window.scrollY;
             const heroHeight = document.getElementById("hero")?.offsetHeight || 800;
 
+            const isMobile = window.innerWidth < 768;
+
             if (scrollY < 100) {
                 setScrollState("top");
-            } else if (scrollY > 100 && scrollY < heroHeight - 100) {
+            } else if (!isMobile && scrollY > 100 && scrollY < heroHeight - 100) {
                 setScrollState("hidden");
             } else {
                 setScrollState("floating");
@@ -91,7 +94,7 @@ export default function Navbar() {
             )}
         >
             <div className={cn(
-                "flex items-center justify-between",
+                "flex justify-between items-center",
                 scrollState === "floating" ? "gap-8" : "container mx-auto px-6"
             )}>
                 {/* Logo */}
@@ -99,15 +102,15 @@ export default function Navbar() {
                     href="#hero"
                     onClick={(e) => handleNavClick(e, "#hero")}
                     className={cn(
-                        "text-lg font-bold tracking-tighter group transition-all duration-300",
-                        scrollState === "floating" && "hidden"
+                        "text-xl font-heading font-bold tracking-tighter group transition-all duration-300",
+                        scrollState === "floating" ? "md:hidden" : "flex"
                     )}
                 >
-                    <span className="text-primary group-hover:glow-text">M</span>
-                    <span className="text-muted-foreground group-hover:text-foreground">.Azam</span>
+                    <span className="text-primary group-hover:glow-text transition-all duration-300">M</span>
+                    <span className="text-muted-foreground group-hover:text-foreground transition-all duration-300">.Azam</span>
                 </a>
 
-                <div className="flex">
+                <div className="flex items-center gap-4">
 
                     {/* Nav Links */}
                     <div className="flex items-center gap-1">
@@ -121,24 +124,26 @@ export default function Navbar() {
                                     activeSection === link.href
                                         ? "text-primary bg-primary/10"
                                         : "text-muted-foreground hover:text-foreground hover:bg-foreground/5",
-                                    scrollState !== "floating" && !["About", "Projects", "Contact"].includes(link.name) && "hidden md:inline-block"
+                                    scrollState !== "floating" && !["About", "Projects", "Contact"].includes(link.name) && "hidden md:inline-block",
+                                    scrollState === "floating" && "hidden md:inline-block"
                                 )}
                             >
-                                {link.name}
+                                <span className="font-medium">{link.name}</span>
                             </a>
                         ))}
                     </div>
 
+                    <ThemeToggle />
                     {/* Mobile Toggle - Only at top */}
-                    {scrollState === "top" && (
-                        <button
-                            className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+                    {(scrollState === "top" || scrollState === "floating") && (
+                        <Button
+                            className="md:hidden p-2 text-muted-foreground hover:text-foreground z-50"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            variant="ghost"
                         >
                             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                        </button>
+                        </Button>
                     )}
-                    <ThemeToggle />
                 </div>
             </div>
 

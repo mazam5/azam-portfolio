@@ -99,10 +99,10 @@ export default function Contact() {
                 <div className="grid lg:grid-cols-2 gap-16">
                     {/* Left — Info */}
                     <div>
-                        <h2 className="contact-element text-3xl md:text-5xl font-bold tracking-tight mb-6">
+                        <h2 className="contact-element text-3xl md:text-5xl font-heading font-bold tracking-tight mb-6">
                             Let&rsquo;s Build
                             <br />
-                            <span className="text-primary">
+                            <span className="text-primary text-shimmer">
                                 Something Great
                             </span>
                         </h2>

@@ -56,13 +56,13 @@ function HeroPhrases() {
         <span className="flex flex-col sm:flex-row gap-3 sm:gap-6 md:gap-10">
             <span
                 ref={word1Ref}
-                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter font-light text-foreground/60"
+                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter font-heading font-light text-foreground/60"
             >
                 {roles[index].word1}
             </span>
             <span
                 ref={word2Ref}
-                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-foreground"
+                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold tracking-tighter text-foreground drop-shadow-[0_0_15px_rgba(var(--primary),0.2)]"
             >
                 {roles[index].word2}
             </span>
@@ -112,9 +112,9 @@ export default function Hero() {
             </div>
 
             {/* Name */}
-            <h1 className="hero-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-none font-medium tracking-tighter mb-4 md:mb-6 max-w-5xl relative z-10 text-muted-foreground">
+            <h1 className="hero-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-none font-heading font-medium tracking-tight mb-4 md:mb-6 max-w-5xl relative z-10 text-muted-foreground">
                 I am{" "}
-                <span className="text-foreground font-bold">
+                <span className="text-foreground font-bold tracking-tighter">
                     {personalInfo.name}
                 </span>
             </h1>

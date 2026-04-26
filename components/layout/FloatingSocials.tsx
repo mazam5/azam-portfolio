@@ -75,7 +75,7 @@ export default function FloatingSocials() {
     return (
         <div
             ref={containerRef}
-            className="fixed right-6 top-1/2 -translate-y-1/2 z-100 hidden lg:flex flex-col items-center gap-0"
+            className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-100 flex flex-col items-center gap-0 scale-75 md:scale-100"
         >
             {/* Top line */}
             <div className="social-line w-px h-16 bg-linear-to-b from-transparent to-primary/30 origin-top mb-4" />

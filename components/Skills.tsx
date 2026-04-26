@@ -91,7 +91,7 @@ export default function Skills() {
                 <div className="flex flex-wrap gap-2 mb-12">
                     <button
                         onClick={() => setActiveCategory("all")}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === "all"
+                        className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-medium transition-all duration-300 ${activeCategory === "all"
                             ? "bg-primary/10 text-primary border border-primary/20"
                             : "bg-secondary/50 text-muted-foreground border border-transparent hover:text-foreground hover:bg-secondary transition-colors"
                             }`}
@@ -102,7 +102,7 @@ export default function Skills() {
                         <button
                             key={cat.key}
                             onClick={() => setActiveCategory(cat.key)}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === cat.key
+                            className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-medium transition-all duration-300 ${activeCategory === cat.key
                                 ? "bg-primary/10 text-primary border border-primary/20"
                                 : "bg-secondary/50 text-muted-foreground border border-transparent hover:text-foreground hover:bg-secondary transition-colors"
                                 }`}
@@ -113,21 +113,21 @@ export default function Skills() {
                 </div>
 
                 {/* Skills grid */}
-                <div className="skills-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="skills-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
                     {filteredSkills.map((skill) => (
                         <div
                             key={skill.name}
-                            className="skill-item glass-card rounded-xl p-5 group transition-all duration-300 hover:border-primary/20 hover:bg-primary/5"
+                            className="skill-item glass-card rounded-xl p-3 md:p-5 group transition-all duration-300 hover:border-primary/20 hover:bg-primary/5"
                         >
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <span className="text-xl">{skill.icon}</span>
-                                    <span className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">
-                                        {skill.name}
+                            <div className="flex flex-col gap-2">
+                                <div className="flex items-center justify-between w-full">
+                                    <span className="text-lg md:text-xl">{skill.icon}</span>
+                                    <span className="text-[8px] md:text-[10px] font-mono text-primary/60 uppercase tracking-widest px-1.5 py-0.5 rounded-md bg-primary/5 border border-primary/10">
+                                        {skill.level}
                                     </span>
                                 </div>
-                                <span className="text-[10px] font-mono text-primary/60 uppercase tracking-widest px-2 py-1 rounded-md bg-primary/5 border border-primary/10">
-                                    {skill.level}
+                                <span className="text-xs md:text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors line-clamp-1">
+                                    {skill.name}
                                 </span>
                             </div>
                         </div>

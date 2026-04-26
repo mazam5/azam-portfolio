@@ -1,7 +1,9 @@
 import { getVisitorCount } from "@/lib/actions";
 import { Users } from "lucide-react";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default async function VisitorDisplay() {
+    noStore(); // Ensure this component is dynamic and not cached
     const count = await getVisitorCount();
 
     return (

@@ -81,7 +81,7 @@ export default function About() {
             <div className="max-w-6xl mx-auto">
                 {/* Section label */}
                 <div className="about-text flex items-center gap-4 mb-16">
-                    <span className="section-label">About Me</span>
+                    <span className="section-label font-mono">About Me</span>
                     <div className="gradient-line flex-1" />
                 </div>
 
@@ -122,10 +122,10 @@ export default function About() {
                                     <div className="p-3 rounded-xl bg-primary/10 text-primary">
                                         {stat.icon}
                                     </div>
-                                    <span className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
+                                    <span className="text-3xl md:text-4xl font-heading font-bold text-foreground tracking-tight">
                                         {stat.value}
                                     </span>
-                                    <span className="text-xs text-muted-foreground font-mono tracking-wider uppercase">
+                                    <span className="text-[10px] text-muted-foreground font-mono tracking-widest uppercase">
                                         {stat.label}
                                     </span>
                                 </div>

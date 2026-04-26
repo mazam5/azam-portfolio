@@ -1,5 +1,7 @@
 import { personalInfo } from "@/data/portfolio";
 import VisitorDisplay from "./analytics/VisitorDisplay";
+import { Suspense } from "react";
+import { Users } from "lucide-react";
 
 export default function Footer() {
     return (
@@ -15,7 +17,14 @@ export default function Footer() {
                     </p>
                 </div>
 
-                <VisitorDisplay />
+                <Suspense fallback={
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-border/20 text-sm text-muted-foreground/40 animate-pulse">
+                        <Users className="w-4 h-4" />
+                        <div className="w-12 h-4 bg-muted rounded" />
+                    </div>
+                }>
+                    <VisitorDisplay />
+                </Suspense>
             </div>
         </footer>
     );

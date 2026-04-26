@@ -19,7 +19,7 @@ export default function ExperienceCard({ ms, index }: { ms: ExperienceData; inde
             {/* Card Content */}
             <div
                 className={cn(
-                    "w-80 p-6 rounded-2xl glass-card border border-primary/10 group hover:border-primary/30 transition-all duration-500",
+                    "w-[280px] sm:w-80 p-5 sm:p-6 rounded-2xl glass-card border border-primary/10 group hover:border-primary/30 transition-all duration-500",
                 )}
             >
                 <div className="flex items-center justify-between mb-4">

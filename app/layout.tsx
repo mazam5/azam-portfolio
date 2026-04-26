@@ -2,7 +2,7 @@ import SmoothScroll from "@/components/layout/SmoothScroll";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
-import { Fira_Code, Inter } from "next/font/google";
+import { Geist_Mono, Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import VisitorTracker from "@/components/analytics/VisitorTracker";
 import { Cursor } from "@/components/layout/Cursor";
@@ -13,8 +13,14 @@ const inter = Inter({
     display: "swap",
 });
 
-const firaCode = Fira_Code({
-    variable: "--font-geist-mono",
+const outfit = Outfit({
+    variable: "--font-heading",
+    subsets: ["latin"],
+    display: "swap",
+});
+
+const geistMono = Geist_Mono({
+    variable: "--font-mono",
     subsets: ["latin"],
     display: "swap",
 });
@@ -50,7 +56,7 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            className={`${inter.variable} ${firaCode.variable}`}
+            className={`${inter.variable} ${outfit.variable} ${geistMono.variable}`}
             suppressHydrationWarning
         >
             <body className="antialiased bg-background text-foreground">
