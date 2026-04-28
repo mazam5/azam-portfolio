@@ -23,8 +23,8 @@ export interface SkillData {
     _id?: string;
     name: string;
     icon: string;
-    level: string; // "Basic" | "Intermediate" | "Advanced"
-    category: "frontend" | "backend" | "mobile" | "devops" | "tools" | "database";
+    level: "Basic" | "Intermediate" | "Advanced";
+    category: "frontend" | "backend" | "mobile"  | "tools" | "database";
 }
 
 export interface EducationData {

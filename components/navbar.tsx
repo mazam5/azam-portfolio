@@ -167,12 +167,12 @@ export default function Navbar() {
                         </a>
                     ))}
                 </div>
-                <button
+                <Button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="absolute top-8 right-8 p-2 text-zinc-400"
                 >
                     <X className="w-8 h-8" />
-                </button>
+                </Button>
             </div>
         </nav>
     );

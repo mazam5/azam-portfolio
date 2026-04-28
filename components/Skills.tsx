@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
+import { Button } from "./ui/button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,15 +21,24 @@ export default function Skills() {
     const sectionRef = useRef<HTMLElement>(null);
     const [activeCategory, setActiveCategory] = useState<string>("all");
     const [skills, setSkills] = useState<SkillData[]>([]);
+    const levelOrder = {
+        Advanced: 3,
+        Intermediate: 2,
+        Basic: 1,
+    };
 
     const filteredSkills =
         activeCategory === "all"
             ? skills
             : skills.filter((s) => s.category === activeCategory);
 
+    const sortedSkills = [...filteredSkills].sort(
+        (a, b) => levelOrder[b.level] - levelOrder[a.level]
+    );
+
     useGSAP(
         () => {
-            if (filteredSkills.length === 0) return;
+            if (sortedSkills.length === 0) return;
 
             gsap.fromTo(
                 ".skill-item",
@@ -48,7 +58,7 @@ export default function Skills() {
                 }
             );
         },
-        { scope: sectionRef, dependencies: [activeCategory, skills] }
+        { scope: sectionRef, dependencies: [sortedSkills] }
     );
 
     useEffect(() => {
@@ -99,7 +109,7 @@ export default function Skills() {
                         All
                     </button>
                     {categories.map((cat) => (
-                        <button
+                        <Button
                             key={cat.key}
                             onClick={() => setActiveCategory(cat.key)}
                             className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-sm font-medium transition-all duration-300 ${activeCategory === cat.key
@@ -108,13 +118,13 @@ export default function Skills() {
                                 }`}
                         >
                             {cat.label}
-                        </button>
+                        </Button>
                     ))}
                 </div>
 
                 {/* Skills grid */}
                 <div className="skills-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-                    {filteredSkills.map((skill) => (
+                    {sortedSkills.map((skill) => (
                         <div
                             key={skill.name}
                             className="skill-item glass-card rounded-xl p-3 md:p-5 group transition-all duration-300 hover:border-primary/20 hover:bg-primary/5"

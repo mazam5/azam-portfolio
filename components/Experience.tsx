@@ -27,10 +27,10 @@ export default function Experience() {
             const totalScroll = Math.max(0, wrapper.scrollWidth - window.innerWidth);
             if (totalScroll === 0) return;
 
-            const scrollDistance = totalScroll * 1.5;
+            const scrollDistance = totalScroll * 4;
 
             // initial state (prevents flicker)
-            gsap.set(wrapper, { opacity: 0, scale: 0.9 });
+            gsap.set(wrapper, { opacity: 0, scale: 0.85, y: 60 });
 
             const tween = gsap.to(wrapper, {
                 x: -totalScroll,
@@ -42,7 +42,7 @@ export default function Experience() {
                 trigger: sectionRef.current,
                 start: "top top",
                 end: `+=${scrollDistance}`,
-                scrub: 0.1,
+                scrub: 0.5,
                 pin: true,
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
@@ -56,15 +56,16 @@ export default function Experience() {
                     });
                     gsap.fromTo(
                         ".experience-card-inner",
-                        { opacity: 0, y: 40, filter: "blur(10px)" },
+                        { opacity: 0, y: 80, scale: 0.85, filter: "blur(14px)" },
                         {
                             opacity: 1,
                             y: 0,
+                            scale: 1,
                             filter: "blur(0px)",
-                            duration: 0.8,
-                            stagger: 0.15,
-                            ease: "power3.out",
-                            delay: 0.2,
+                            duration: 1,
+                            stagger: 0.2,
+                            ease: "power4.out",
+                            delay: 0.3,
                         }
                     );
                 },

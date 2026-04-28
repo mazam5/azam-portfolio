@@ -7,6 +7,7 @@ import { ExternalLink, Layers } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { ProjectData } from "@/lib/types";
+import { Button } from "./ui/button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,10 +23,9 @@ export default function Projects() {
     const [activeFilter, setActiveFilter] = useState("all");
     const [projects, setProjects] = useState<ProjectData[]>([]);
 
-    const filteredProjects =
-        activeFilter === "all"
-            ? projects
-            : projects.filter((p) => p.category === activeFilter);
+    const filteredProjects = activeFilter === "all"
+        ? projects
+        : projects.filter((p) => p.category === activeFilter);
 
 
     useGSAP(
@@ -89,7 +89,7 @@ export default function Projects() {
                 {/* Filter tabs */}
                 <div className="flex flex-wrap gap-2 mb-12">
                     {filterTabs.map((tab) => (
-                        <button
+                        <Button
                             key={tab.key}
                             onClick={() => setActiveFilter(tab.key)}
                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeFilter === tab.key
@@ -98,7 +98,7 @@ export default function Projects() {
                                 }`}
                         >
                             {tab.label}
-                        </button>
+                        </Button>
                     ))}
                 </div>
 

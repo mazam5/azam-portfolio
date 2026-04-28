@@ -10,11 +10,11 @@ import { personalInfo } from "@/data/portfolio";
 
 const roles = [
     { word1: "Software", word2: "Engineer" },
-    { word1: "Full-Stack", word2: "Developer" },
-    { word1: "Problem", word2: "Solver" },
-    { word1: "Web", word2: "Developer" },
-    { word1: "Mobile", word2: "Developer" },
+    { word1: "Fullstack", word2: "Developer" },
     { word1: "Frontend", word2: "Developer" },
+    { word1: "Backend", word2: "Developer" },
+    { word1: "Web", word2: "Developer" },
+    { word1: "Mobile App", word2: "Developer" },
 ];
 
 function HeroPhrases() {

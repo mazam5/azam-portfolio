@@ -10,6 +10,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "../ui/button";
 
 // Direct SVG paths for stable rendering
 const GithubIcon = () => (
@@ -85,7 +86,7 @@ export default function FloatingSocials() {
                 {socialLinks.map((link) => (
                     <Tooltip key={link.name}>
                         <TooltipTrigger asChild>
-                            <button
+                            <Button
                                 onClick={() =>
                                     handleClick(link.url, link.icon)
                                 }
@@ -93,7 +94,7 @@ export default function FloatingSocials() {
                                 aria-label={link.name}
                             >
                                 {iconMap[link.icon]}
-                            </button>
+                            </Button>
                         </TooltipTrigger>
                         <TooltipContent side="left" className="bg-popover border-border text-foreground text-xs font-medium shadow-xl">
                             {link.name}
