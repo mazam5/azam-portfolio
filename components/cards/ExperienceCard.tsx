@@ -47,7 +47,7 @@ export default function ExperienceCard({ ms, index }: ExperienceCardProps) {
             {/* Tech badges */}
             {ms.technologies && ms.technologies.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-                    {ms.technologies.slice(0, 3).map((tech) => (
+                    {ms.technologies.slice(0, 4).map((tech) => (
                         <Badge
                             key={tech}
                             variant="outline"
@@ -56,9 +56,9 @@ export default function ExperienceCard({ ms, index }: ExperienceCardProps) {
                             {tech}
                         </Badge>
                     ))}
-                    {ms.technologies.length > 3 && (
+                    {ms.technologies.length > 4 && (
                         <span className="text-[10px] text-muted-foreground/60 self-center">
-                            +{ms.technologies.length - 3}
+                            +{ms.technologies.length - 4}
                         </span>
                     )}
                 </div>

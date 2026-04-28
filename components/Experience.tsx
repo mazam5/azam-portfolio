@@ -23,17 +23,15 @@ export default function Experience() {
             const wrapper = wrapperRef.current;
             if (!wrapper) return;
 
-            // prevent negative scroll
-            const totalScroll = Math.max(0, wrapper.scrollWidth - window.innerWidth);
-            if (totalScroll === 0) return;
-
-            const scrollDistance = totalScroll * 4;
+            const getScrollAmount = () => {
+                return Math.max(0, wrapper.scrollWidth - window.innerWidth);
+            };
 
             // initial state (prevents flicker)
-            gsap.set(wrapper, { opacity: 0, scale: 0.85, y: 60 });
+            gsap.set(wrapper, { opacity: 0, y: 50 });
 
             const tween = gsap.to(wrapper, {
-                x: -totalScroll,
+                x: () => -getScrollAmount(),
                 ease: "none",
             });
 
@@ -41,8 +39,8 @@ export default function Experience() {
                 animation: tween,
                 trigger: sectionRef.current,
                 start: "top top",
-                end: `+=${scrollDistance}`,
-                scrub: 0.5,
+                end: () => `+=${Math.max(window.innerHeight, getScrollAmount() * 2)}`,
+                scrub: 1,
                 pin: true,
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
@@ -50,9 +48,10 @@ export default function Experience() {
                 onEnter: () => {
                     gsap.to(wrapper, {
                         opacity: 1,
-                        scale: 1,
+                        y: 0,
                         duration: 1,
                         ease: "power3.out",
+                        overwrite: "auto",
                     });
                     gsap.fromTo(
                         ".experience-card-inner",
@@ -65,17 +64,19 @@ export default function Experience() {
                             duration: 1,
                             stagger: 0.2,
                             ease: "power4.out",
-                            delay: 0.3,
+                            delay: 0.2,
+                            overwrite: "auto",
                         }
                     );
                 },
 
                 onLeaveBack: () => {
                     gsap.to(wrapper, {
-                        scale: 0.9,
                         opacity: 0,
+                        y: 50,
                         duration: 0.5,
                         ease: "power2.in",
+                        overwrite: "auto",
                     });
                 },
             });

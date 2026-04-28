@@ -96,19 +96,6 @@ export default function About() {
                                 {paragraph}
                             </p>
                         ))}
-
-                        {/* Philosophy */}
-                        <div className="about-text mt-8 p-6 rounded-2xl border border-primary/10 bg-primary/5">
-                            <p className="text-sm text-primary/80 font-mono mb-2 tracking-wider uppercase">
-                                My Philosophy
-                            </p>
-                            <p className="text-lg text-foreground italic font-light leading-relaxed opacity-80">
-                                &ldquo;Code is not just instructions for machines — it&rsquo;s a
-                                craft that bridges human problems with elegant
-                                solutions. Every line should be intentional,
-                                every architecture decision thoughtful.&rdquo;
-                            </p>
-                        </div>
                     </div>
 
                     {/* Right — Stats */}
@@ -132,41 +119,7 @@ export default function About() {
                             ))}
                         </div>
 
-                        {/* Terminal-style snippet */}
-                        <div className="about-text mt-6 p-5 rounded-2xl bg-slate-950 border border-white/5 font-mono text-sm shadow-xl">
-                            <div className="flex items-center gap-2 mb-3">
-                                <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                                <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                                <div className="w-3 h-3 rounded-full bg-green-500/60" />
-                                <span className="ml-2 text-zinc-600 text-xs">
-                                    about.ts
-                                </span>
-                            </div>
-                            <div className="space-y-1 text-xs">
-                                <p>
-                                    <span className="text-purple-400">const</span>{" "}
-                                    <span className="text-cyan-400">engineer</span>{" "}
-                                    <span className="text-zinc-500">=</span> {"{"}
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-zinc-400">name:</span>{" "}
-                                    <span className="text-green-400">&quot;{personalInfo.name}&quot;</span>,
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-zinc-400">passion:</span>{" "}
-                                    <span className="text-green-400">&quot;Building things that matter&quot;</span>,
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-zinc-400">approach:</span>{" "}
-                                    <span className="text-green-400">&quot;Problem-first, code-second&quot;</span>,
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-zinc-400">coffee:</span>{" "}
-                                    <span className="text-amber-400">Infinity</span>,
-                                </p>
-                                <p>{"}"}</p>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

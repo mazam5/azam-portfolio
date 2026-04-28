@@ -23,9 +23,13 @@ export default function Projects() {
     const [activeFilter, setActiveFilter] = useState("all");
     const [projects, setProjects] = useState<ProjectData[]>([]);
 
-    const filteredProjects = activeFilter === "all"
+    const filteredProjects = [...(activeFilter === "all"
         ? projects
-        : projects.filter((p) => p.category === activeFilter);
+        : projects.filter((p) => p.category === activeFilter)
+    )].sort((a, b) => {
+        if (a.featured === b.featured) return 0;
+        return a.featured ? -1 : 1;
+    });
 
 
     useGSAP(

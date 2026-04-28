@@ -116,11 +116,13 @@ export default function Contact() {
                         <div className="contact-element space-y-6">
                             {/* Privacy note */}
                             <div className="p-5 rounded-2xl border border-primary/10 bg-primary/5">
-                                <p className="text-xs text-muted-foreground leading-relaxed">
+                                <p className="text-xs text-primary leading-relaxed">
                                     <span className="text-primary font-mono tracking-wider uppercase block mb-2">
                                         Privacy First
                                     </span>
-                                    Your information is sent directly to me via a secure server-side channel and saved in a private database (Google Sheets). No third-party trackers or invasive analytics—just a secure way for us to connect.
+                                    Your information is sent directly to me
+                                    No third-party trackers or invasive
+                                    analytics—just a secure way for us to connect.
                                 </p>
                             </div>
 
