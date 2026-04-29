@@ -182,29 +182,6 @@ export default function InteractiveBackground({ className }: { className?: strin
       }
     `);
 
-    const colorShader = compileShader(gl, gl.FRAGMENT_SHADER, `
-      precision mediump float;
-      uniform vec4 color;
-      void main () {
-        gl_FragColor = color;
-      }
-    `);
-
-    const checkerboardShader = compileShader(gl, gl.FRAGMENT_SHADER, `
-      precision highp float;
-      precision highp sampler2D;
-      varying vec2 vUv;
-      uniform sampler2D uTexture;
-      uniform float aspectRatio;
-      #define SCALE 25.0
-      void main () {
-        vec2 uv = floor(vUv * SCALE * vec2(aspectRatio, 1.0));
-        float v = mod(uv.x + uv.y, 2.0);
-        v = v * 0.1 + 0.8;
-        gl_FragColor = vec4(vec3(v), 1.0);
-      }
-    `);
-
     const displayShaderSource = `
       precision highp float;
       precision highp sampler2D;
@@ -530,25 +507,6 @@ export default function InteractiveBackground({ className }: { className?: strin
         set write(value) { fbo2 = value; },
         swap() { const temp = fbo1; fbo1 = fbo2; fbo2 = temp; }
       };
-    }
-
-    function resizeFBO(target: ReturnType<typeof createFBO>, w: number, h: number, internalFormat: number, format: number, type: number, param: number) {
-      const newFBO = createFBO(w, h, internalFormat, format, type, param);
-      copyProgram.bind();
-      gl.uniform1i(copyProgram.uniforms.uTexture, target.attach(0));
-      blit(newFBO);
-      return newFBO;
-    }
-
-    function resizeDoubleFBO(target: ReturnType<typeof createDoubleFBO>, w: number, h: number, internalFormat: number, format: number, type: number, param: number) {
-      if (target.width === w && target.height === h) return target;
-      target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param);
-      target.write = createFBO(w, h, internalFormat, format, type, param);
-      target.width = w;
-      target.height = h;
-      target.texelSizeX = 1.0 / w;
-      target.texelSizeY = 1.0 / h;
-      return target;
     }
 
     const filtering = supportLinearFiltering ? gl.LINEAR : gl.NEAREST;

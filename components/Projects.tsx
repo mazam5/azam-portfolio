@@ -74,7 +74,6 @@ export default function Projects() {
             className="relative py-24 md:py-32 px-6 z-10"
         >
             <div className="max-w-6xl mx-auto">
-                {/* Section label */}
                 <div className="flex items-center gap-4 mb-8">
                     <Layers className="w-4 h-4 text-[#00eaff]/40" />
                     <span className="section-label">Projects</span>
@@ -90,7 +89,6 @@ export default function Projects() {
                     problem-solving and engineering.
                 </p>
 
-                {/* Filter tabs */}
                 <div className="flex flex-wrap gap-2 mb-12">
                     {filterTabs.map((tab) => (
                         <Button
@@ -106,18 +104,14 @@ export default function Projects() {
                     ))}
                 </div>
 
-                {/* Projects grid */}
                 <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {filteredProjects.map((project, i) => (
                         <div
                             key={i}
                             className="project-card glass-card rounded-2xl overflow-hidden group border border-border/50 hover:border-primary/30"
                         >
-                            {/* Project header with gradient */}
                             <div className="relative h-40 bg-linear-to-br from-primary/10 to-primary/5 dark:from-slate-900 dark:to-slate-950 flex items-center justify-center overflow-hidden">
-                                {/* Decorative grid */}
                                 <div className="absolute inset-0 dot-pattern opacity-10 dark:opacity-30" />
-                                {/* Floating shapes */}
                                 <div className="absolute top-4 right-4 w-20 h-20 rounded-full border border-primary/10 opacity-30 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" />
                                 <div className="absolute bottom-6 left-6 w-12 h-12 rounded-lg border border-primary/10 opacity-20 group-hover:opacity-50 group-hover:rotate-12 transition-all duration-700" />
 
@@ -132,13 +126,11 @@ export default function Projects() {
                                 )}
                             </div>
 
-                            {/* Content */}
                             <div className="p-6">
                                 <p className="text-sm text-muted-foreground leading-relaxed mb-4 font-light line-clamp-3">
                                     {project.description}
                                 </p>
 
-                                {/* Tech stack */}
                                 <div className="flex flex-wrap gap-1.5 mb-5">
                                     {project.technologies.map((tech) => (
                                         <Badge
@@ -151,7 +143,6 @@ export default function Projects() {
                                     ))}
                                 </div>
 
-                                {/* Links */}
                                 <div className="flex items-center gap-3 pt-4 border-t border-foreground/5">
                                     {project.liveUrl && (
                                         <a

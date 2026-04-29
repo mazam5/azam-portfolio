@@ -10,46 +10,57 @@ import { ExperienceData } from "@/lib/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ================= MAIN ================= */
 export default function Experience() {
     const [experiences, setExperiences] = useState<ExperienceData[]>([]);
     const sectionRef = useRef<HTMLElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const hasAnimatedIn = useRef(false);
 
     useGSAP(
         () => {
             if (!experiences.length) return;
 
+            const section = sectionRef.current;
             const wrapper = wrapperRef.current;
-            if (!wrapper) return;
+            if (!section || !wrapper) return;
 
             const getScrollAmount = () => {
-                return Math.max(0, wrapper.scrollWidth - window.innerWidth);
+                const leftPad = wrapper.getBoundingClientRect().left;
+                return Math.max(0, wrapper.scrollWidth - window.innerWidth + leftPad);
             };
 
-            // initial state (prevents flicker)
-            gsap.set(wrapper, { opacity: 0, y: 50 });
+            gsap.set(wrapper, { opacity: 0, y: 50, x: 0 });
+            hasAnimatedIn.current = false;
 
             const tween = gsap.to(wrapper, {
                 x: () => -getScrollAmount(),
                 ease: "none",
+                paused: true,
             });
 
-            const trigger = ScrollTrigger.create({
+            ScrollTrigger.create({
+                id: "experience-horizontal-scroll",
                 animation: tween,
-                trigger: sectionRef.current,
+                trigger: section,
                 start: "top top",
-                end: () => `+=${Math.max(window.innerHeight, getScrollAmount() * 2)}`,
+                end: () =>
+                    `+=${Math.max(
+                        window.innerHeight,
+                        getScrollAmount() + window.innerHeight * 0.5
+                    )}`,
                 scrub: 1,
                 pin: true,
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
 
                 onEnter: () => {
+                    if (hasAnimatedIn.current) return;
+                    hasAnimatedIn.current = true;
+
                     gsap.to(wrapper, {
                         opacity: 1,
                         y: 0,
-                        duration: 1,
+                        duration: 0.9,
                         ease: "power3.out",
                         overwrite: "auto",
                     });
@@ -62,15 +73,16 @@ export default function Experience() {
                             scale: 1,
                             filter: "blur(0px)",
                             duration: 1,
-                            stagger: 0.2,
+                            stagger: 0.15,
                             ease: "power4.out",
-                            delay: 0.2,
+                            delay: 0.15,
                             overwrite: "auto",
                         }
                     );
                 },
 
                 onLeaveBack: () => {
+                    hasAnimatedIn.current = false;
                     gsap.to(wrapper, {
                         opacity: 0,
                         y: 50,
@@ -80,11 +92,6 @@ export default function Experience() {
                     });
                 },
             });
-
-            return () => {
-                trigger.kill();
-                tween.kill();
-            };
         },
         { scope: sectionRef, dependencies: [experiences] }
     );
@@ -99,8 +106,8 @@ export default function Experience() {
                 });
                 const data = await res.json();
                 setExperiences(data);
-            } catch (err: any) {
-                if (err.name !== "AbortError") {
+            } catch (err: unknown) {
+                if (err instanceof Error && err.name !== "AbortError") {
                     console.error("Fetch error:", err);
                 }
             }
@@ -108,9 +115,7 @@ export default function Experience() {
 
         fetchExperiences();
 
-        return () => {
-            controller.abort();
-        };
+        return () => controller.abort();
     }, []);
 
     return (
@@ -119,8 +124,7 @@ export default function Experience() {
             ref={sectionRef}
             className="journey relative h-screen overflow-hidden flex items-center w-full"
         >
-            {/* Label */}
-            <div className="absolute top-16 inset-x-0 z-20">
+            <div className="absolute top-16 inset-x-0 z-30 pointer-events-none">
                 <div className="px-6 mx-auto max-w-6xl">
                     <div className="flex items-center gap-4">
                         <span className="opacity-20">
@@ -135,24 +139,25 @@ export default function Experience() {
 
             <div
                 ref={wrapperRef}
-                className="relative flex items-center h-full min-w-max px-8 md:px-[15vw] pr-[25vw]"
+                className="relative flex items-center h-full min-w-max"
+                style={{
+                    paddingLeft: "clamp(24px, 8vw, 180px)",
+                    paddingRight: "clamp(80px, 18vw, 280px)",
+                }}
             >
-                <div className="flex items-center gap-12 md:gap-20">
+                <div className="flex items-center gap-8 sm:gap-12 md:gap-16 lg:gap-20">
                     {experiences.map((exp, i) => (
-                        <div key={i} className="experience-card-inner shrink-0 h-full flex">
-                            <div className="flex flex-col items-center">
-                                <ExperienceCard
-                                    ms={{
-                                        date: exp.date,
-                                        title: exp.title,
-                                        company: exp.company,
-                                        description: exp.description,
-                                        technologies: exp.technologies,
-                                        icon: <Briefcase className="w-5 h-5" />,
-                                    }}
-                                    index={i}
-                                />
-                            </div>
+                        <div key={i} className="experience-card-inner shrink-0 flex">
+                            <ExperienceCard
+                                ms={{
+                                    date: exp.date,
+                                    title: exp.title,
+                                    company: exp.company,
+                                    description: exp.description,
+                                    technologies: exp.technologies,
+                                    icon: <Briefcase className="w-5 h-5" />,
+                                }}
+                            />
                         </div>
                     ))}
                 </div>

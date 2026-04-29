@@ -82,7 +82,6 @@ export default function Skills() {
             className="relative py-24 md:py-32 px-6 z-10"
         >
             <div className="max-w-6xl mx-auto">
-                {/* Section label */}
                 <div className="flex items-center gap-4 mb-8">
                     <span className="section-label">Skills & Expertise</span>
                     <div className="gradient-line flex-1" />
@@ -97,7 +96,6 @@ export default function Skills() {
                     stack.
                 </p>
 
-                {/* Category filters */}
                 <div className="flex flex-wrap gap-2 mb-12">
                     <button
                         onClick={() => setActiveCategory("all")}
@@ -122,7 +120,6 @@ export default function Skills() {
                     ))}
                 </div>
 
-                {/* Skills grid */}
                 <div className="skills-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
                     {sortedSkills.map((skill) => (
                         <div

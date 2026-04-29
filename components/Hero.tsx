@@ -1,12 +1,12 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { personalInfo } from "@/data/portfolio";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import InteractiveBackground from "./InteractiveBackground";
-import { Button } from "@/components/ui/button";
-import { personalInfo } from "@/data/portfolio";
 
 const roles = [
     { word1: "Software", word2: "Engineer" },
@@ -102,7 +102,6 @@ export default function Hero() {
             <div className="absolute top-1/4 left-1/4 w-75 md:w-150 h-75 md:h-150 bg-[#00eaff]/5 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute bottom-1/4 right-1/4 w-62.5 md:w-125 h-62.5 md:h-125 bg-[#7b61ff]/5 rounded-full blur-[100px] pointer-events-none" />
 
-            {/* Open to work badge */}
             <div className="hero-element relative z-10 mb-8">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/40 dark:border-emerald-400/30 bg-emerald-500/15 dark:bg-emerald-400/10 backdrop-blur-md text-emerald-800 dark:text-emerald-300 text-sm font-medium animate-pulse shadow-2xl">
                     <Sparkles className="w-4 h-4" />
@@ -111,7 +110,6 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* Name */}
             <h1 className="hero-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-none font-heading font-medium tracking-tight mb-4 md:mb-6 max-w-5xl relative z-10 text-muted-foreground">
                 I am{" "}
                 <span className="text-foreground font-bold tracking-tighter">
@@ -119,17 +117,14 @@ export default function Hero() {
                 </span>
             </h1>
 
-            {/* Animated roles */}
             <div className="hero-element mb-8 md:mb-10 relative z-10">
                 <HeroPhrases />
             </div>
 
-            {/* Tagline */}
             <p className="hero-element text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 relative z-10 font-light">
                 {personalInfo.tagline}
             </p>
 
-            {/* CTA buttons */}
             <div className="hero-element flex flex-wrap justify-center gap-4 relative z-10">
                 <a href="#projects">
                     <Button className="rounded-full px-8 py-6 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300">
@@ -147,7 +142,6 @@ export default function Hero() {
                 </a>
             </div>
 
-            {/* Scroll indicator */}
             <div className="hero-element absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
                 <span className="text-xs font-mono tracking-widest uppercase opacity-60 text-muted-foreground dark:text-muted-foreground">
                     Scroll

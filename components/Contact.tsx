@@ -1,14 +1,14 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { personalInfo } from "@/data/portfolio";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Send, CheckCircle2, AlertCircle, Loader2, GraduationCap } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -69,7 +69,6 @@ export default function Contact() {
             setFormState("success");
             setFormData({ name: "", email: "", subject: "", phone: "", message: "" });
 
-            // Reset after 5 seconds
             setTimeout(() => setFormState("idle"), 5000);
         } catch (err) {
             setFormState("error");
@@ -86,18 +85,15 @@ export default function Contact() {
             ref={sectionRef}
             className="relative py-24 md:py-32 px-6 z-10"
         >
-            {/* Background decoration */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-primary/5 rounded-full blur-[200px] pointer-events-none" />
 
             <div className="max-w-6xl mx-auto">
-                {/* Section label */}
                 <div className="contact-element flex items-center gap-4 mb-8">
                     <span className="section-label">Get in Touch</span>
                     <div className="gradient-line flex-1" />
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-16">
-                    {/* Left — Info */}
                     <div>
                         <h2 className="contact-element text-3xl md:text-5xl font-heading font-bold tracking-tight mb-6">
                             Let&rsquo;s Build
@@ -114,17 +110,7 @@ export default function Contact() {
                         </p>
 
                         <div className="contact-element space-y-6">
-                            {/* Privacy note */}
-                            <div className="p-5 rounded-2xl border border-primary/10 bg-primary/5">
-                                <p className="text-xs text-primary leading-relaxed">
-                                    <span className="text-primary font-mono tracking-wider uppercase block mb-2">
-                                        Privacy First
-                                    </span>
-                                    Your information is sent directly to me
-                                    No third-party trackers or invasive
-                                    analytics—just a secure way for us to connect.
-                                </p>
-                            </div>
+
 
                             {/* Location */}
                             <div className="flex items-center gap-3 text-muted-foreground/60">
@@ -136,7 +122,6 @@ export default function Contact() {
                         </div>
                     </div>
 
-                    {/* Right — Form */}
                     <div className="contact-element">
                         <form
                             onSubmit={handleSubmit}

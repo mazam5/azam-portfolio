@@ -96,9 +96,6 @@ const Card1 = ({ ms, index }: { ms: ExperienceData; index: number }) => {
                     <div className="text-yellow-500/40 font-mono text-sm tracking-widest font-bold group-hover:text-yellow-500/80 transition-colors">
                         {ms.date}
                     </div>
-                    {/* <div ref={iconRef} className="p-3 bg-yellow-500/5 rounded-xl border border-yellow-500/20 group-hover:border-yellow-500/40 transition-colors">
-                        {ms.icon}
-                    </div> */}
                 </div>
                 <h4 ref={titleRef} className="text-white text-lg md:text-xl font-bold mb-3 tracking-tight z-10 transition-colors">
                     {ms.title}

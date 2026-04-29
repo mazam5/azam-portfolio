@@ -1,13 +1,12 @@
 "use client";
 
 import About from "./About";
-// import Certifications from "./Certifications";
 import Contact from "./Contact";
 import Education from "./Education";
 import Experience from "./Experience";
 import Hero from "./Hero";
-// import Languages from "./Languages";
 import FloatingSocials from "./layout/FloatingSocials";
+import ScrollButtons from "./ScrollButtons";
 import ScrollTracker from "./layout/ScrollTracker";
 import Navbar from "./navbar";
 import Projects from "./Projects";
@@ -21,6 +20,7 @@ export default function Portfolio() {
             <Navbar />
             <FloatingSocials />
             <ScrollTracker />
+            <ScrollButtons />
 
             {/* Sections */}
             <Hero />

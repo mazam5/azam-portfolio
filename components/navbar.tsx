@@ -122,8 +122,8 @@ export default function Navbar() {
                                 className={cn(
                                     "relative text-xs font-medium px-4 py-2 rounded-full transition-all duration-300",
                                     activeSection === link.href
-                                        ? "text-primary bg-primary/10"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-foreground/5",
+                                        ? "text-primary font-semibold"
+                                        : "text-foreground/80 hover:text-foreground hover:bg-foreground/10",
                                     scrollState !== "floating" && !["About", "Projects", "Contact"].includes(link.name) && "hidden md:inline-block",
                                     scrollState === "floating" && "hidden md:inline-block"
                                 )}

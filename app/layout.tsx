@@ -64,7 +64,7 @@ export default function RootLayout({
                     <SmoothScroll>
                         <TooltipProvider delayDuration={200}>
                             <VisitorTracker />
-                            {/* <Cursor /> */}
+                            <Cursor />
                             {children}
                         </TooltipProvider>
                     </SmoothScroll>

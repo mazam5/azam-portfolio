@@ -69,7 +69,6 @@ export default function Services() {
             className="relative py-24 md:py-32 px-6 z-10"
         >
             <div className="max-w-6xl mx-auto">
-                {/* Section label */}
                 <div className="flex items-center gap-4 mb-8">
                     <span className="section-label">What I Offer</span>
                     <div className="gradient-line flex-1" />
@@ -92,7 +91,6 @@ export default function Services() {
                                 key={i}
                                 className="service-card glass-card rounded-2xl p-7 group relative overflow-hidden"
                             >
-                                {/* Background glow */}
                                 <div
                                     className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[80px] opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"
                                     style={{ backgroundColor: color }}
