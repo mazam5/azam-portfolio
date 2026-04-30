@@ -32,65 +32,114 @@ export default function Experience() {
             gsap.set(wrapper, { opacity: 0, y: 50, x: 0 });
             hasAnimatedIn.current = false;
 
-            const tween = gsap.to(wrapper, {
-                x: () => -getScrollAmount(),
-                ease: "none",
-                paused: true,
-            });
+            const mm = gsap.matchMedia();
 
-            ScrollTrigger.create({
-                id: "experience-horizontal-scroll",
-                animation: tween,
-                trigger: section,
-                start: "top top",
-                end: () =>
-                    `+=${Math.max(
-                        window.innerHeight,
-                        getScrollAmount() + window.innerHeight * 0.5
-                    )}`,
-                scrub: 1,
-                pin: true,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
+            mm.add("(min-width: 768px)", () => {
+                const tween = gsap.to(wrapper, {
+                    x: () => -getScrollAmount(),
+                    ease: "none",
+                    paused: true,
+                });
 
-                onEnter: () => {
-                    if (hasAnimatedIn.current) return;
-                    hasAnimatedIn.current = true;
+                ScrollTrigger.create({
+                    id: "experience-horizontal-scroll",
+                    animation: tween,
+                    trigger: section,
+                    start: "top top",
+                    end: () =>
+                        `+=${Math.max(
+                            window.innerHeight,
+                            getScrollAmount() + window.innerHeight * 0.5
+                        )}`,
+                    scrub: 1,
+                    pin: true,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
 
-                    gsap.to(wrapper, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.9,
-                        ease: "power3.out",
-                        overwrite: "auto",
-                    });
-                    gsap.fromTo(
-                        ".experience-card-inner",
-                        { opacity: 0, y: 80, scale: 0.85, filter: "blur(14px)" },
-                        {
+                    onEnter: () => {
+                        if (hasAnimatedIn.current) return;
+                        hasAnimatedIn.current = true;
+
+                        gsap.to(wrapper, {
                             opacity: 1,
                             y: 0,
-                            scale: 1,
-                            filter: "blur(0px)",
-                            duration: 1,
-                            stagger: 0.15,
-                            ease: "power4.out",
-                            delay: 0.15,
+                            duration: 0.9,
+                            ease: "power3.out",
                             overwrite: "auto",
-                        }
-                    );
-                },
+                        });
+                        gsap.fromTo(
+                            ".experience-card-inner",
+                            { opacity: 0, y: 80, scale: 0.85, filter: "blur(14px)" },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                filter: "blur(0px)",
+                                duration: 1,
+                                stagger: 0.15,
+                                ease: "power4.out",
+                                delay: 0.15,
+                                overwrite: "auto",
+                            }
+                        );
+                    },
 
-                onLeaveBack: () => {
-                    hasAnimatedIn.current = false;
-                    gsap.to(wrapper, {
-                        opacity: 0,
-                        y: 50,
-                        duration: 0.5,
-                        ease: "power2.in",
-                        overwrite: "auto",
-                    });
-                },
+                    onLeaveBack: () => {
+                        hasAnimatedIn.current = false;
+                        gsap.to(wrapper, {
+                            opacity: 0,
+                            y: 50,
+                            duration: 0.5,
+                            ease: "power2.in",
+                            overwrite: "auto",
+                        });
+                    },
+                });
+            });
+
+            mm.add("(max-width: 767px)", () => {
+                ScrollTrigger.create({
+                    id: "experience-fade-in",
+                    trigger: section,
+                    start: "top 80%",
+                    onEnter: () => {
+                        if (hasAnimatedIn.current) return;
+                        hasAnimatedIn.current = true;
+
+                        gsap.to(wrapper, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.9,
+                            ease: "power3.out",
+                            overwrite: "auto",
+                        });
+                        gsap.fromTo(
+                            ".experience-card-inner",
+                            { opacity: 0, y: 80, scale: 0.85, filter: "blur(14px)" },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                filter: "blur(0px)",
+                                duration: 1,
+                                stagger: 0.15,
+                                ease: "power4.out",
+                                delay: 0.15,
+                                overwrite: "auto",
+                            }
+                        );
+                    },
+                    onLeaveBack: () => {
+                        hasAnimatedIn.current = false;
+                        gsap.to(wrapper, {
+                            opacity: 0,
+                            y: 50,
+                            duration: 0.5,
+                            ease: "power2.in",
+                            overwrite: "auto",
+                        });
+                    },
+                });
             });
         },
         { scope: sectionRef, dependencies: [experiences] }
@@ -122,7 +171,7 @@ export default function Experience() {
         <section
             id="journey"
             ref={sectionRef}
-            className="journey relative h-screen overflow-hidden flex items-center w-full"
+            className="journey relative min-h-screen md:h-screen md:overflow-hidden flex items-center w-full py-32 md:py-0"
         >
             <div className="absolute top-16 inset-x-0 z-30 pointer-events-none">
                 <div className="px-6 mx-auto max-w-6xl">
@@ -139,15 +188,15 @@ export default function Experience() {
 
             <div
                 ref={wrapperRef}
-                className="relative flex items-center h-full min-w-max"
+                className="relative flex flex-col md:flex-row items-center h-full w-full md:w-auto md:min-w-max mt-12 md:mt-0"
                 style={{
                     paddingLeft: "clamp(24px, 8vw, 180px)",
-                    paddingRight: "clamp(80px, 18vw, 280px)",
+                    paddingRight: "clamp(24px, 18vw, 280px)",
                 }}
             >
-                <div className="flex items-center gap-8 sm:gap-12 md:gap-16 lg:gap-20">
+                <div className="flex flex-col md:flex-row items-center gap-8 sm:gap-12 md:gap-16 lg:gap-20 w-full">
                     {experiences.map((exp, i) => (
-                        <div key={i} className="experience-card-inner shrink-0 flex">
+                        <div key={i} className="experience-card-inner shrink-0 flex w-full md:w-auto">
                             <ExperienceCard
                                 ms={{
                                     date: exp.date,
