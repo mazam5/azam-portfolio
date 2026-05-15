@@ -25,8 +25,7 @@ export default function Experience() {
             if (!section || !wrapper) return;
 
             const getScrollAmount = () => {
-                const leftPad = wrapper.getBoundingClientRect().left;
-                return Math.max(0, wrapper.scrollWidth - window.innerWidth + leftPad);
+                return Math.max(0, wrapper.scrollWidth - document.documentElement.clientWidth);
             };
 
             gsap.set(wrapper, { opacity: 0, y: 50, x: 0 });
@@ -141,6 +140,21 @@ export default function Experience() {
                     },
                 });
             });
+
+            // Handle layout changes (e.g. late CSS loading in production or font loading)
+            let refreshTimeout: NodeJS.Timeout;
+            const ro = new ResizeObserver(() => {
+                clearTimeout(refreshTimeout);
+                refreshTimeout = setTimeout(() => {
+                    ScrollTrigger.refresh();
+                }, 100);
+            });
+            ro.observe(wrapper);
+
+            return () => {
+                ro.disconnect();
+                clearTimeout(refreshTimeout);
+            };
         },
         { scope: sectionRef, dependencies: [experiences] }
     );
